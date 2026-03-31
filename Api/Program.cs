@@ -1,12 +1,26 @@
+using Application.Interfaces;
+using Application.Services;
+using Application.Validators;
+using Domain.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
+using Infrastructure.Repositories;
+using Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<IUserService,UserService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -30,6 +44,7 @@ using (var scope = app.Services.CreateScope())
     retryPolicy.Execute(() =>
     {
         db.Database.Migrate();
+		DbSeed.SeedAsync(db).GetAwaiter().GetResult();
     });
 }
 
@@ -39,6 +54,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.MapControllers();

@@ -19,13 +19,13 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                    name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                    lastname = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PassHash = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                    pass_hahs = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     role = table.Column<int>(type: "int", nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
@@ -42,7 +42,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    idAdmin = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    id_admin = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     cnpj = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
@@ -69,11 +69,11 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_pharmacies", x => x.id);
                     table.ForeignKey(
-                        name: "FK_pharmacies_users_idAdmin",
-                        column: x => x.idAdmin,
+                        name: "FK_pharmacies_users_id_admin",
+                        column: x => x.id_admin,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -98,7 +98,7 @@ namespace Infrastructure.Migrations
                         column: x => x.id_pharmacy,
                         principalTable: "pharmacies",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -110,10 +110,10 @@ namespace Infrastructure.Migrations
                     dosage = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     require_prescription = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    type = table.Column<int>(type: "int", nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     updated_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    id_pharmacy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IdPharmacy = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     id_category = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -151,9 +151,9 @@ namespace Infrastructure.Migrations
                 column: "id_category");
 
             migrationBuilder.CreateIndex(
-                name: "IX_pharmacies_idAdmin",
+                name: "IX_pharmacies_id_admin",
                 table: "pharmacies",
-                column: "idAdmin",
+                column: "id_admin",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260323142554_InitialCreate")]
+    [Migration("20260330174551_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -86,9 +86,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("id_category");
 
-                    b.Property<Guid>("IdPharmacy")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id_pharmacy");
+                    b.Property<Guid?>("IdPharmacy")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(350)
@@ -124,7 +123,8 @@ namespace Infrastructure.Migrations
                         .HasColumnName("tags");
 
                     b.Property<int>("Type")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("type");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetime(6)")
@@ -173,7 +173,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("IdAdmin")
                         .HasColumnType("char(36)")
-                        .HasColumnName("idAdmin");
+                        .HasColumnName("id_admin");
 
                     b.Property<string>("LogoUrl")
                         .HasMaxLength(350)
@@ -239,17 +239,20 @@ namespace Infrastructure.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("lastname");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
                     b.Property<string>("PassHash")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("varchar(150)")
+                        .HasColumnName("pass_hahs");
 
                     b.Property<int>("Role")
                         .HasColumnType("int")
@@ -272,7 +275,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Pharmacy", "Pharmacy")
                         .WithMany("Categories")
                         .HasForeignKey("IdPharmacy")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Pharmacy");
@@ -294,7 +297,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.User", "Admin")
                         .WithOne("Pharmacy")
                         .HasForeignKey("Domain.Entities.Pharmacy", "IdAdmin")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Admin");

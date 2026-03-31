@@ -19,10 +19,10 @@ namespace Infrastructure.Persistence
 						{
 							e.ToTable("users");
 							e.HasKey(e=>e.Id);
-							e.Property(e=>e.Id).HasColumnName("id").HasColumnType("char(36)").ValueGeneratedNever();
-							e.Property(e=>e.Name).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
-							e.Property(e=>e.LastName).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
-							e.Property(e=>e.PassHash).IsRequired().HasColumnType("varchar(150)").HasMaxLength(150);
+							e.Property(e=>e.Id).HasColumnName("id").ValueGeneratedNever();
+							e.Property(e=>e.Name).HasColumnName("name").IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
+							e.Property(e=>e.LastName).HasColumnName("lastname").IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
+							e.Property(e=>e.PassHash).HasColumnName("pass_hahs").IsRequired().HasColumnType("varchar(150)").HasMaxLength(150);
 							e.Property(u => u.Email).HasColumnName("email").HasColumnType("varchar(100)").HasMaxLength(100).IsRequired();
 							e.Property(u=>u.Role).HasColumnName("role").HasConversion<int>().IsRequired();
 							e.Property(e=>e.CreatedAt).HasColumnName("created_at").HasColumnType("datetime(6)");
@@ -37,8 +37,8 @@ namespace Infrastructure.Persistence
 					{
 						p.ToTable("pharmacies");
 						p.HasKey(p=>p.Id);
-						p.Property(p=>p.Id).HasColumnName("id").HasColumnType("char(36)").ValueGeneratedNever();
-						p.Property(p=>p.IdAdmin).HasColumnName("idAdmin").HasColumnType("char(36)");
+						p.Property(p=>p.Id).HasColumnName("id").ValueGeneratedNever();
+						p.Property(p=>p.IdAdmin).HasColumnName("id_admin");
 						p.Property(p=>p.Name).HasColumnName("name").HasColumnType("varchar(150)").HasMaxLength(150).IsRequired();
 						p.Property(p=>p.Cnpj).HasColumnName("cnpj").HasColumnType("varchar(20)").HasMaxLength(20).IsRequired();
 						p.Property(p=>p.Address).HasColumnName("address").HasColumnType("varchar(250)").HasMaxLength(250).IsRequired();
@@ -53,12 +53,14 @@ namespace Infrastructure.Persistence
 						p.Property(p=>p.UpdatedAt).HasColumnName("updated_at").HasColumnType("datetime(6)");
 					});
 
+
+
 					modelBuilder.Entity<Category>(m=>
 					{
 						m.ToTable("categories");
 						m.HasKey(e=>e.Id);
-						m.Property(e=>e.Id).HasColumnName("id").HasColumnType("char(36)").ValueGeneratedNever();
-						m.Property(p=>p.IdPharmacy).HasColumnName("id_pharmacy").HasColumnType("char(36)");
+						m.Property(e=>e.Id).HasColumnName("id").ValueGeneratedNever();
+						m.Property(p=>p.IdPharmacy).HasColumnName("id_pharmacy");
 						m.Property(p=>p.Name).HasColumnName("name").HasColumnType("varchar(150)").HasMaxLength(150).IsRequired();
 						m.Property(p=>p.Description).HasColumnName("description").HasColumnType("varchar(550)").HasMaxLength(550);
 						m.Property(p=>p.CreatedAt).HasColumnName("created_at").HasColumnType("datetime(6)");
@@ -69,9 +71,8 @@ namespace Infrastructure.Persistence
 					{
 						m.ToTable("medications");
 						m.HasKey(p=>p.Id);
-						m.Property(p=>p.Id).HasColumnName("id").HasColumnType("char(36)").ValueGeneratedNever();
-						m.Property(p=>p.IdPharmacy).HasColumnName("id_pharmacy").HasColumnType("char(36)").IsRequired();
-						m.Property(p=>p.IdCategory).HasColumnName("id_category").HasColumnType("char(36)").IsRequired();
+						m.Property(p=>p.Id).HasColumnName("id").ValueGeneratedNever();
+						m.Property(p=>p.IdCategory).HasColumnName("id_category").IsRequired();
 						m.Property(p=>p.Name).HasColumnName("name").HasColumnType("varchar(150)").HasMaxLength(150).IsRequired();
 						m.Property(p=>p.Description).HasColumnName("description").HasColumnType("varchar(550)").HasMaxLength(550).IsRequired();
 						m.Property(p=>p.Dosage).HasColumnName("dosage").HasColumnType("varchar(150)").HasMaxLength(150);
@@ -80,37 +81,47 @@ namespace Infrastructure.Persistence
 						m.Property(p=>p.Price).HasColumnName("price").HasColumnType("decimal(10,2)").IsRequired();
 						m.Property(p=>p.RequirePrescription).HasColumnName("require_prescription");
 						m.Property(p=>p.Stock).HasColumnName("stock").IsRequired();
+						m.Property(p=>p.Type).HasColumnName("type").HasConversion<int>().IsRequired();
 						m.Property(p=>p.Tags).HasColumnName("tags").HasColumnType("varchar(150)");
 						m.Property(p=>p.CreatedAt).HasColumnName("created_at").HasColumnType("datetime(6)");
 						m.Property(p=>p.UpdatedAt).HasColumnName("updated_at").HasColumnType("datetime(6)");
 					});
-						
+
+			
 
 				// Relacionamentos
 
 		//User 1 : Phamarcy 1
-		modelBuilder.Entity<User>()
-			.HasOne(u => u.Pharmacy)
-			.WithOne(p=>p.Admin)
-			.HasForeignKey<Pharmacy>(p => p.IdAdmin);
+ modelBuilder.Entity<User>()
+    .HasOne(u => u.Pharmacy)
+    .WithOne(p => p.Admin)
+    .HasForeignKey<Pharmacy>(p => p.IdAdmin)
+    .OnDelete(DeleteBehavior.Restrict);
+
+
 
 
 		//phamarcy 1:N categories
+		//No caso de 1:N,passamos N e por fim o1
 		modelBuilder.Entity<Category>()
 				.HasOne(c => c.Pharmacy)
 				.WithMany(p => p.Categories)
-				.HasForeignKey(c => c.IdPharmacy);
+				.HasForeignKey(c => c.IdPharmacy)
+				.OnDelete(DeleteBehavior.Restrict);
 
 
 
 		//categorias 1:N Medicaments 
-				modelBuilder.Entity<Medication>()
-					.HasOne(m=>m.Category)
-					.WithMany(c=>c.Medicaments)
-					.HasForeignKey(m=>m.IdCategory)
-					.OnDelete(DeleteBehavior.Restrict);
-				}
+        modelBuilder.Entity<Medication>()
+			.HasOne(m => m.Category)
+			.WithMany(c => c.Medicaments)
+			.HasForeignKey(m => m.IdCategory)
+			.OnDelete(DeleteBehavior.Restrict);
 
-    }
+
+		
+  }
+	}
+
 
 }

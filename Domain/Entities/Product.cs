@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public abstract  class Product : BaseEntity
     {
-		public  Guid IdPharmacy{get;private set;}
+		public  Guid? IdPharmacy{get;private set;}
 		public Guid IdCategory{get;private set;}
         public  string Name{get;private set;}=string.Empty;
 		public string Description{get;private set;}=string.Empty;
@@ -21,10 +21,11 @@ namespace Domain.Entities
 
 
 		protected Product(){}
-		protected Product(Guid idPharmacy,Guid idCategory,string description,string manufacturer,decimal price,string? imageUrl,string? tags)
+		protected Product(Guid idCategory,string name,string description,string manufacturer,decimal price,string? imageUrl,string? tags)
 		{
-			this.IdPharmacy=idPharmacy;
+		
 			this.IdCategory=idCategory;
+			this.Name=name;
 			this.Description=description;
 			this.Manufacturer=manufacturer;
 			this.Price=price;
