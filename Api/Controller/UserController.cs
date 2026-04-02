@@ -17,13 +17,11 @@ namespace Api.Controller
  
        public UserController(IUserService userService)=>_userService = userService;
 
-
-	
-      /// <summary>
+      ///<summary>
 	  /// Retorna uma lista  de usuarios
-	  /// </summary>
-	  /// <returns>Lista de usuarios</returns> 
-	  /// <response code="200">Usuário retornados com sucesso</responde>
+	  ///</summary>
+	  ///<returns>Lista de usuarios</returns> 
+	  ///<response code="200">Usuário retornados com sucesso</responde>
 	  ///<response code="204">Nenhum usuário encontrado</responde>
         [HttpGet()]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -38,6 +36,27 @@ namespace Api.Controller
 			return Ok(users);
 		}
 
+
+     ///<summary>
+	  /// Retorna um usuario pelo seu Id
+	  ///</summary>
+	  ///<returns>Lista de usuarios</returns> 
+	  ///<response code="200">Usuário retornados com sucesso</responde>
+	  ///<response code="204">Nenhum usuário encontrado</responde>
+        [HttpGet("{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+		public  async Task<IActionResult>  GetUserById(Guid id)
+		{
+			var user=await _userService.getUserByIdAsync(id);
+
+			if(user == null)
+			   return NoContent();
+			
+			return Ok(user);
+		}
+
+
 		
       /// <summary>
 	  ///Cria um novo usuário e retorna oi usuário criado
@@ -45,7 +64,7 @@ namespace Api.Controller
 	  ///<returns>Cria um novo usuário</returns> 
 	  ///<response code="201">Usuário criado com sucesso</responde>
 	  ///<response code="400">Dados inválidos</responde>
-       [HttpPost()]
+        [HttpPost()]
 		[ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> AddNewUser([FromBody] UserCreateDto dto)
@@ -58,8 +77,6 @@ namespace Api.Controller
 			
 		}
     }
-
-
-		
+	
 
 }

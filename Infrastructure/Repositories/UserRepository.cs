@@ -31,12 +31,14 @@ namespace Infrastructure.Repositories
 
 		public async Task<IEnumerable<User>> GetAllUsers()
 		{
-		   return await context.Users.ToListAsync();
+		   return await context.Users .Include(u => u.Pharmacies).ToListAsync();
 		}
 
 		public async  Task<User> GetUserById(Guid id)
 		{
-			return await context.Users.FindAsync(id);
+
+			var user=await context.Users.FindAsync(id);
+		    return user!;
 
 		}
 

@@ -6,12 +6,11 @@ using pharmacy_api.Enum;
 
 namespace Application.DTOS.User
 {
-    public record  UserCreateDto(
+   public record  UserCreateDto(
 		string name,
 		string lastName,
 		string email,
 		string passHash,
 		UserRole role
 	);
-
 }

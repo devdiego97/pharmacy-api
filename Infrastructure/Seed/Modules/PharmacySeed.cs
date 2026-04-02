@@ -25,8 +25,11 @@ namespace Infrastructure.Seed.Modules
 
 					
 				};
+
+				
+				
 				 context.Pharmacies.AddRange(pharmacies);
-                await context.SaveChangesAsync();
+                 await context.SaveChangesAsync();
 				
 			}
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.DTOS.Pharmacy;
 using Application.DTOS.User;
 using Application.Interfaces;
 using Domain.Entities;
@@ -25,7 +26,7 @@ namespace Application.Services
 			);
 			await _userRepo.AddAsync(user);
 			return  new UserResponseDto(
-				user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role
+				user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,null
 			);
 		
 
@@ -36,9 +37,19 @@ namespace Application.Services
 		{
 			var users= await _userRepo.GetAllUsers();
 			return  users.Select(u => new UserResponseDto(
-			  u.Id,u.Name,u.LastName,u.Email,u.PassHash,u.Role
+			  u.Id,u.Name,u.LastName,u.Email,u.PassHash,u.Role,
+			  u.Pharmacies?.Select(p => new PharmacyResponseDto(
+				p.IdAdmin,p.Name,p.Cnpj,p.City,p.State,p.Address,p.LogoUrl,p.Phone,p.Email,p.PassHash,p.Status,p.Categories
+			  )).ToList()
 			));
 		}
 
+		public async Task<UserResponseDto> getUserByIdAsync(Guid id)
+		{
+		  var user=await _userRepo.GetUserById(id);
+		  return new UserResponseDto( user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,null);
+
+		}
+		 
 	}
 }

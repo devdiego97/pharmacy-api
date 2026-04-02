@@ -14,7 +14,8 @@ namespace Domain.Entities
 		public string Email{get; private set;}=string.Empty;
 		public  string PassHash{get;private set;}=string.Empty;
 		public  UserRole Role{get;private set;}=UserRole.subAdmin;
-		public Pharmacy? Pharmacy=null!;
+		public ICollection<Pharmacy> Pharmacies { get; set; } = new List<Pharmacy>();
+
 
 		protected User(){}
 		public User(string name,string lastName,string email,string passHash,UserRole role)

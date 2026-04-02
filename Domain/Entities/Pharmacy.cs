@@ -21,7 +21,7 @@ namespace Domain.Entities
 		public string Email{get; private set;}=string.Empty;
 		public  string PassHash{get; private set;}=string.Empty;
 		public bool Status{get; private set;}
-	
+	   
 		 public ICollection<Category> Categories { get; set; } = new List<Category>();
 
 		 public Pharmacy(Guid idAdmin,string name,string cnpj,string city,string state,string address,

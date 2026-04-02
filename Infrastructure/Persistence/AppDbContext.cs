@@ -91,12 +91,12 @@ namespace Infrastructure.Persistence
 
 				// Relacionamentos
 
-		//User 1 : Phamarcy 1
- modelBuilder.Entity<User>()
-    .HasOne(u => u.Pharmacy)
-    .WithOne(p => p.Admin)
-    .HasForeignKey<Pharmacy>(p => p.IdAdmin)
-    .OnDelete(DeleteBehavior.Restrict);
+		//User N : Phamarcy N
+  modelBuilder.Entity<Pharmacy>()
+        .HasOne(p => p.Admin)
+        .WithMany(a => a.Pharmacies)
+        .HasForeignKey(p => p.IdAdmin)
+        .OnDelete(DeleteBehavior.Restrict); // ou Cascade dependendo da regra
 
 
 
