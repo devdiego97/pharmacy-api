@@ -1,3 +1,4 @@
+using Api.Middleware;
 using Application.Interfaces;
 using Application.Services;
 using Application.Validators;
@@ -57,6 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.MapControllers();
 

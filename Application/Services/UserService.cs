@@ -6,6 +6,7 @@ using Application.DTOS.Pharmacy;
 using Application.DTOS.User;
 using Application.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Interfaces;
 
 namespace Application.Services
@@ -37,7 +38,7 @@ namespace Application.Services
 		   var user=await _userRepo.GetUserById(id);
 
 		   if(user == null)
-		       throw new Exception("usuário não existe no banco de dados");
+		       throw new BusinessException("usuário não existe no banco de dados");
 
 			await _userRepo.DeleteAsync(user);
 		
@@ -59,6 +60,8 @@ namespace Application.Services
 		public async Task<UserResponseDto> GetUserByIdAsync(Guid id)
 		{
 		  var user=await _userRepo.GetUserById(id);
+		  if(user == null)
+		    throw new BusinessException("usuário com o id não encontrado");
 		  return new UserResponseDto( user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,null);
 
 		}
