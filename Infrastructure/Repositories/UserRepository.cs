@@ -24,9 +24,12 @@ namespace Infrastructure.Repositories
 
 		}
 
-		public async Task deleteAsync(Guid id)
+	
+
+		public async Task DeleteAsync(User user)
 		{
-		   await context.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
+		    context.Users.Remove(user);
+			await context.SaveChangesAsync();
 		}
 
 		public async Task<IEnumerable<User>> GetAllUsers()
@@ -34,20 +37,20 @@ namespace Infrastructure.Repositories
 		   return await context.Users .Include(u => u.Pharmacies).ToListAsync();
 		}
 
+		
+		
+
 		public async  Task<User> GetUserById(Guid id)
 		{
-
-			var user=await context.Users.FindAsync(id);
-		    return user!;
-
+			var user= await context.Users.FindAsync(id);
+			return user;
 		}
 
-		public async Task UpdateAsync(User user)
+		public Task UpdateAsync(User user)
 		{
-			
-			  context.Users.Update(user);
-			  await context.SaveChangesAsync();
-
+			throw new NotImplementedException();
 		}
+
+		
 	}
 }

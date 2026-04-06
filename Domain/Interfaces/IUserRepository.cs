@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces
@@ -12,7 +11,7 @@ namespace Domain.Interfaces
 	   Task<User> GetUserById(Guid id);
 		Task AddAsync(User user);
 		Task UpdateAsync(User user);
-		Task deleteAsync(Guid id);
+		Task DeleteAsync(User user);
 
 
     };

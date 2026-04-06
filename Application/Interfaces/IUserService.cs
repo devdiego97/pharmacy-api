@@ -9,7 +9,9 @@ namespace Application.Interfaces
     public interface  IUserService
     {
         Task<IEnumerable<UserResponseDto>> GelAllAsync();
-		Task<UserResponseDto> getUserByIdAsync(Guid id);
+		Task<UserResponseDto> GetUserByIdAsync(Guid id);
 		Task<UserResponseDto>  CreateUser(UserCreateDto dto);
+		Task DeleteUser(Guid id);
+	
     }
 }

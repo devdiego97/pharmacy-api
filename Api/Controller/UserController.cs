@@ -48,7 +48,7 @@ namespace Api.Controller
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 		public  async Task<IActionResult>  GetUserById(Guid id)
 		{
-			var user=await _userService.getUserByIdAsync(id);
+			var user=await _userService.GetUserByIdAsync(id);
 
 			if(user == null)
 			   return NoContent();
@@ -76,7 +76,24 @@ namespace Api.Controller
 			return StatusCode(StatusCodes.Status201Created, user);
 			
 		}
+        
+         /// <summary>
+		/// Deleta um usuário pelo seu id
+		/// </summary>
+		/// <param name="id">Identificador do usuário</param>
+		/// <response code="204">Usuário deletado com sucesso</response>
+		/// <response code="404">Usuário não encontrado</response>
+		[HttpDelete("{id:guid}")]
+		public async Task<IActionResult> DeleteUserById(Guid id)
+		{
+			await _userService.DeleteUser(id);
+			return NoContent();
+		}
+
+
     }
+
+
 	
 
 }

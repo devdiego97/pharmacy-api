@@ -32,6 +32,18 @@ namespace Application.Services
 
 		}
 
+		public async  Task DeleteUser(Guid id)
+		{
+		   var user=await _userRepo.GetUserById(id);
+
+		   if(user == null)
+		       throw new Exception("usuário não existe no banco de dados");
+
+			await _userRepo.DeleteAsync(user);
+		
+
+
+		}
 
 		public async  Task<IEnumerable<UserResponseDto>> GelAllAsync()
 		{
@@ -44,12 +56,13 @@ namespace Application.Services
 			));
 		}
 
-		public async Task<UserResponseDto> getUserByIdAsync(Guid id)
+		public async Task<UserResponseDto> GetUserByIdAsync(Guid id)
 		{
 		  var user=await _userRepo.GetUserById(id);
 		  return new UserResponseDto( user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,null);
 
 		}
-		 
+
+		
 	}
 }
