@@ -42,7 +42,10 @@ namespace Infrastructure.Repositories
 
 		public async  Task<User> GetUserById(Guid id)
 		{
-			var user= await context.Users.FindAsync(id);
+			//var user= await context.Users.FindAsync(id); nao érmite o inlude
+			var user = await context.Users
+			.Include(u => u.Pharmacies)
+			.SingleOrDefaultAsync(u => u.Id == id);
 			return user;
 		}
 

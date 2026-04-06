@@ -13,8 +13,7 @@ namespace Infrastructure.Seed
     {
         public static async  Task SeedAsync(AppDbContext context){
 
-			
-
+		
 			var users = new List<User>()
 			{
 			    new User("Diego","Dutra Morais", "diegodm97@gmail.com","hweghweewferrrr",UserRole.Admin),

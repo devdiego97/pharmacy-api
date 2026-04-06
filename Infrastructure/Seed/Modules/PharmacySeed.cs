@@ -13,11 +13,9 @@ namespace Infrastructure.Seed.Modules
         public static async Task SeedAsync(AppDbContext context)
 		{
 
-			var admin = await context.Users.FirstOrDefaultAsync(u => u.Email == "diegodm97@gmail.com");
-			var admin2 = await context.Users.FirstOrDefaultAsync(u => u.Email == "agatagomessousa@gmail.com");
+			var admin = await context.Users.SingleOrDefaultAsync(u => u.Email == "diegodm97@gmail.com");
+			var admin2 = await context.Users.SingleOrDefaultAsync(u => u.Email == "agatagomessousa@gmail.com");
             
-			if(admin != null)
-			{
 				var pharmacies=new List<Pharmacy>
 				{
 					new Pharmacy(admin.Id,"Saude+", "12345678000195","Rubim","MG", "Rua curitiba,156,Bairro Upe",null,"11987654321","saude+@gmail.com","gswtywevgeghdgewft2235656",true),
@@ -26,12 +24,18 @@ namespace Infrastructure.Seed.Modules
 					
 				};
 
+				foreach (var pharmacy in pharmacies)
+				{
+					var exists = await context.Pharmacies
+						.AnyAsync(p => p.Cnpj == pharmacy.Cnpj);
+
+					if (!exists)
+						context.Pharmacies.Add(pharmacy);
+				}
+
+				await context.SaveChangesAsync();
 				
-				
-				 context.Pharmacies.AddRange(pharmacies);
-                 await context.SaveChangesAsync();
-				
-			}
+			
 
 
 		}

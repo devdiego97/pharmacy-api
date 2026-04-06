@@ -1,5 +1,10 @@
+[]Divisão de camadas
+[]Swaggwer
+[]Seed
 []Fazer as 5 operações de crud(get,get id,post,put,pacth,delete)
 []Retornar relacionamentos nos cruds
+  - Os Dtos devem ter os relacionamentos
+  - Os dtos de include não devem ter tudo
 []Tratamento de erros globais
 []Aplicar paginacao,filtros
 []Camadas da Clean Arquitecture

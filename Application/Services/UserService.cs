@@ -62,7 +62,12 @@ namespace Application.Services
 		  var user=await _userRepo.GetUserById(id);
 		  if(user == null)
 		    throw new BusinessException("usuário com o id não encontrado");
-		  return new UserResponseDto( user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,null);
+		  return new UserResponseDto( user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,
+		 user.Pharmacies.Select(p => new PharmacyResponseDto(
+				p.IdAdmin,p.Name,p.Cnpj,p.City,p.State,p.Address,p.LogoUrl,p.Phone,p.Email,p.PassHash,p.Status,p.Categories
+			  )).ToList()
+		  
+		  );
 
 		}
 
