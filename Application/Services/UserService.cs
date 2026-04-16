@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.DTOS.Category;
 using Application.DTOS.Pharmacy;
 using Application.DTOS.User;
 using Application.Interfaces;
@@ -33,7 +34,15 @@ namespace Application.Services
 
 		}
 
-		public async  Task DeleteUser(Guid id)
+		public async Task PatchUser(Guid id, UserPatchDto dto)
+		{
+			var user = await _userRepo.GetUserById(id)
+				?? throw new BusinessException("Usuário não encontrado");
+
+			await _userRepo.PatchAsync(id, dto.name, dto.lastName, dto.email, dto.passHash);
+		}
+
+		public async Task DeleteUser(Guid id)
 		{
 		   var user=await _userRepo.GetUserById(id);
 
@@ -52,7 +61,9 @@ namespace Application.Services
 			return  users.Select(u => new UserResponseDto(
 			  u.Id,u.Name,u.LastName,u.Email,u.PassHash,u.Role,
 			  u.Pharmacies?.Select(p => new PharmacyResponseDto(
-				p.IdAdmin,p.Name,p.Cnpj,p.City,p.State,p.Address,p.LogoUrl,p.Phone,p.Email,p.PassHash,p.Status,p.Categories
+				p.IdAdmin,p.Name,p.Cnpj,p.City,p.State,p.Address,p.LogoUrl,p.Phone,p.Email,p.PassHash,p.Status,p.Categories.Select(c=>
+				  new CategoryResponseDto(c.Id,c.Name,c.Description)
+				).ToList()
 			  )).ToList()
 			));
 		}
@@ -64,7 +75,9 @@ namespace Application.Services
 		    throw new BusinessException("usuário com o id não encontrado");
 		  return new UserResponseDto( user.Id,user.Name,user.LastName,user.Email,user.PassHash,user.Role,
 		 user.Pharmacies.Select(p => new PharmacyResponseDto(
-				p.IdAdmin,p.Name,p.Cnpj,p.City,p.State,p.Address,p.LogoUrl,p.Phone,p.Email,p.PassHash,p.Status,p.Categories
+				p.IdAdmin,p.Name,p.Cnpj,p.City,p.State,p.Address,p.LogoUrl,p.Phone,p.Email,p.PassHash,p.Status,p.Categories.Select(c=>
+				  new CategoryResponseDto(c.Id,c.Name,c.Description)
+				).ToList()
 			  )).ToList()
 		  
 		  );

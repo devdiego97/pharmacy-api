@@ -77,7 +77,23 @@ namespace Api.Controller
 			
 		}
         
-         /// <summary>
+		/// <summary>
+		/// Atualiza parcialmente um usuário
+		/// </summary>
+		/// <param name="id">Identificador do usuário</param>
+		/// <param name="dto">Campos a atualizar (apenas os preenchidos serão alterados)</param>
+		/// <response code="200">Usuário atualizado com sucesso</response>
+		/// <response code="404">Usuário não encontrado</response>
+		[HttpPatch("{id:guid}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<IActionResult> PatchUser(Guid id, [FromBody] UserPatchDto dto)
+		{
+			await _userService.PatchUser(id, dto);
+			return Ok(new { message = "recurso alterado com sucesso" });
+		}
+
+		/// <summary>
 		/// Deleta um usuário pelo seu id
 		/// </summary>
 		/// <param name="id">Identificador do usuário</param>

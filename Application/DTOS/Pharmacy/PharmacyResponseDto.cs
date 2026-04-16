@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.DTOS.Category;
 using Domain.Entities;
 
 
@@ -21,6 +22,6 @@ namespace Application.DTOS.Pharmacy
 		string email,
 		 string passHash,
 		bool status,
-		ICollection<Category> Categories 
+		ICollection<CategoryResponseDto>? Categories 
   );
 }

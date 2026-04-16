@@ -12,6 +12,7 @@ namespace Application.Interfaces
 		Task<UserResponseDto> GetUserByIdAsync(Guid id);
 		Task<UserResponseDto>  CreateUser(UserCreateDto dto);
 		Task DeleteUser(Guid id);
+		Task PatchUser(Guid id, UserPatchDto dto);
 	
     }
 }

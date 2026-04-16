@@ -1,3 +1,4 @@
+
 using Application.DTOS.Pharmacy;
 using pharmacy_api.Enum;
 
@@ -12,5 +13,6 @@ namespace Application.DTOS.User
 		string PassHash,
 		UserRole Role,
 		ICollection<PharmacyResponseDto>? Pharmacies
+		
 	);
 }

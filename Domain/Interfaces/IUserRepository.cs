@@ -11,7 +11,9 @@ namespace Domain.Interfaces
 	   Task<User> GetUserById(Guid id);
 		Task AddAsync(User user);
 		Task UpdateAsync(User user);
+		Task PatchAsync(Guid id, string? name, string? lastName, string? email, string? passHash);
 		Task DeleteAsync(User user);
+		
 
 
     };
