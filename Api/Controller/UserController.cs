@@ -89,6 +89,10 @@ namespace Api.Controller
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> PatchUser(Guid id, [FromBody] UserPatchDto dto)
 		{
+
+			if(!ModelState.IsValid)
+			 return  BadRequest(ModelState);
+
 			await _userService.PatchUser(id, dto);
 			return Ok(new { message = "recurso alterado com sucesso" });
 		}
@@ -109,7 +113,5 @@ namespace Api.Controller
 
     }
 
-
-	
 
 }

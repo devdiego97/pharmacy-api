@@ -3,6 +3,8 @@ bin/
 obj/
 out/
 
+/todo.md
+
 ## Visual Studio files
 .vs/
 *.user
