@@ -3,7 +3,7 @@ bin/
 obj/
 out/
 
-/todo.md
+./todo.md
 
 ## Visual Studio files
 .vs/
