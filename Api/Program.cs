@@ -29,6 +29,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 }
 );
 
+builder.Services.AddCors(
+
+);
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

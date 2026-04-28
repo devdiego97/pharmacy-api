@@ -16,7 +16,7 @@ namespace Application.DTOS.User
         {
             get => _page;
             init => _page = value < 1 ? 1 : value;
-        }
+        } 
 
         private int _pageSize = 20;
         public int PageSize

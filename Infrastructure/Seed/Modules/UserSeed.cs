@@ -36,18 +36,18 @@ namespace Infrastructure.Seed
 			};
 
 				var existingEmails = await context.Users
-		.Select(u => u.Email)
-		.ToListAsync();
+				.Select(u => u.Email)
+				.ToListAsync();
 
-		var usersToAdd = users
-			.Where(u => !existingEmails.Contains(u.Email))
-			.ToList();
+			var usersToAdd = users
+				.Where(u => !existingEmails.Contains(u.Email))
+				.ToList();
 
-		if (usersToAdd.Any())
-		{
-			context.Users.AddRange(usersToAdd);
-			await context.SaveChangesAsync();
-}
+			if (usersToAdd.Any())
+			{
+				context.Users.AddRange(usersToAdd);
+				await context.SaveChangesAsync();
+	        }
 
 		
 

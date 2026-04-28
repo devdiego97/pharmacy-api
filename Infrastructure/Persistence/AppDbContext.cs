@@ -11,11 +11,13 @@ namespace Infrastructure.Persistence
 				public DbSet<Category> Categories{get;set;}
 				public DbSet<Medication> Medications{get;set;}
 
+
 				protected override void OnModelCreating(ModelBuilder modelBuilder)
 				{
 					base.OnModelCreating(modelBuilder);
 					
 					modelBuilder.Entity<User>(e =>
+					
 						{
 							e.ToTable("users");
 							e.HasKey(e=>e.Id);
@@ -100,7 +102,6 @@ namespace Infrastructure.Persistence
 
 
 
-
 		//phamarcy 1:N categories
 		//No caso de 1:N,passamos N e por fim o1
 		modelBuilder.Entity<Category>()
@@ -118,8 +119,6 @@ namespace Infrastructure.Persistence
 			.HasForeignKey(m => m.IdCategory)
 			.OnDelete(DeleteBehavior.Restrict);
 
-
-		
   }
 	}
 

@@ -20,7 +20,12 @@
 - []redis cache
 - [] Observalidade = Serilog + Grafana + Prometheus
 - [] Agente de IA
-  
 
+
+
+-Cloud
+  [] upload com aws
+  []upload com azur
+  []upload com gcp
   O que ? Por que? e Como?
   
