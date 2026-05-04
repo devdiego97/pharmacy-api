@@ -1,4 +1,5 @@
 using Api.Middleware;
+using Application.DTOS.Common.Mappings;
 using Application.Interfaces;
 using Application.Services;
 using Application.Validators;
@@ -8,6 +9,8 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Infrastructure.Seed;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 
@@ -20,8 +23,19 @@ builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+var applicationAssembly = typeof(MapsterConfig).Assembly;
+var config = TypeAdapterConfig.GlobalSettings;
+config.Scan(applicationAssembly);
+builder.Services.AddSingleton(config);
+builder.Services.AddScoped<IMapper, ServiceMapper>();
+
+
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IPharmacyRepository,PharmacyRepository>();
+//builder.Services.AddScoped<IPharmacyService,PharmacyService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
