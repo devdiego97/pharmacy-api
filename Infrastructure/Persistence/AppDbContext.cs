@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using pharmacy_api.Enum;
 
 namespace Infrastructure.Persistence
 {
@@ -24,9 +25,9 @@ namespace Infrastructure.Persistence
 							e.Property(e=>e.Id).HasColumnName("id").ValueGeneratedNever();
 							e.Property(e=>e.Name).HasColumnName("name").IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
 							e.Property(e=>e.LastName).HasColumnName("lastname").IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
-							e.Property(e=>e.PassHash).HasColumnName("pass_hahs").IsRequired().HasColumnType("varchar(150)").HasMaxLength(150);
+							e.Property(e=>e.PassHash).HasColumnName("pass_hash").IsRequired().HasColumnType("varchar(150)").HasMaxLength(150);
 							e.Property(u => u.Email).HasColumnName("email").HasColumnType("varchar(100)").HasMaxLength(100).IsRequired();
-							e.Property(u=>u.Role).HasColumnName("role").HasConversion<int>().IsRequired();
+							e.Property(u=>u.Role) .HasColumnName("role") .HasConversion<int>().HasDefaultValue(UserRole.Client).IsRequired();
 							e.Property(e=>e.CreatedAt).HasColumnName("created_at").HasColumnType("datetime(6)");
 							e.Property(e=>e.UpdatedAt).HasColumnName("updated_at").HasColumnType("datetime(6)");
 							e.HasIndex(e=>e.Email).IsUnique();	

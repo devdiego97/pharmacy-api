@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260330174551_InitialCreate")]
+    [Migration("20260504091303_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.14")
+                .HasAnnotation("ProductVersion", "9.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -214,8 +214,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdAdmin")
-                        .IsUnique();
+                    b.HasIndex("IdAdmin");
 
                     b.ToTable("pharmacies", (string)null);
                 });
@@ -252,10 +251,12 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("pass_hahs");
+                        .HasColumnName("pass_hash");
 
                     b.Property<int>("Role")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasDefaultValue(1)
                         .HasColumnName("role");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
@@ -295,8 +296,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Pharmacy", b =>
                 {
                     b.HasOne("Domain.Entities.User", "Admin")
-                        .WithOne("Pharmacy")
-                        .HasForeignKey("Domain.Entities.Pharmacy", "IdAdmin")
+                        .WithMany("Pharmacies")
+                        .HasForeignKey("IdAdmin")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -315,7 +316,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.Navigation("Pharmacy");
+                    b.Navigation("Pharmacies");
                 });
 #pragma warning restore 612, 618
         }

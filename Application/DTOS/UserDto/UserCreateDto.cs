@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using pharmacy_api.Enum;
 
-namespace Application.DTOS.User
+namespace Application.DTOS.UserDto
 {
    public record  UserCreateDto(
 		string name,

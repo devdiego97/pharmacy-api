@@ -13,7 +13,7 @@
 - [x] Exceptions Globais
 - [x] Paginação e Filtragem
 - [] Search
-- [] Mapster
+- [x] Mapster
 - [] Envio de Emails 
 - [] Uplaod de arquivos
 - [] CQRS + MediaTr

@@ -1,19 +1,26 @@
 using Application.DTOS.Category;
 using Application.DTOS.Common;
-using Application.DTOS.Pharmacy;
-using Application.DTOS.User;
+using Application.DTOS.PharmacyDto;
+using Application.DTOS.UserDto;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Interfaces;
+using Mapster;
+using MapsterMapper;
 
 namespace Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepo;
+		private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepo) => _userRepo = userRepo;
+        public UserService(IUserRepository userRepo,IMapper mapper)
+		{
+			_userRepo = userRepo;
+			_mapper = mapper;
+		} 
 
         public async Task<PagedResult<UserResponseDto>> GetUsersAsync(UserQueryParams queryParams)
         {
@@ -25,9 +32,9 @@ namespace Application.Services
                 queryParams.PageSize
             );
 
-            var data = users.Select(MapToDto);
-
-            return new PagedResult<UserResponseDto>(data, queryParams.Page, queryParams.PageSize, totalCount);
+           
+			 var data = _mapper.Map<List<UserResponseDto>>(users);
+             return new PagedResult<UserResponseDto>(data, queryParams.Page, queryParams.PageSize, totalCount);
         }
 
         public async Task<UserResponseDto> GetUserByIdAsync(Guid id)
@@ -35,22 +42,23 @@ namespace Application.Services
             var user = await _userRepo.GetUserById(id)
                 ?? throw new BusinessException("Usuário com o id não encontrado");
 
-            return MapToDto(user);
+           return user != null ? _mapper.Map<UserResponseDto>(user) : null;
         }
 
         public async Task<UserResponseDto> CreateUser(UserCreateDto dto)
         {
-            var user = new User(dto.name, dto.lastName, dto.email, dto.passHash, dto.role);
-            await _userRepo.AddAsync(user);
-            return new UserResponseDto(user.Id, user.Name, user.LastName, user.Email, user.PassHash, user.Role, null);
+           
+			 var user = _mapper.Map<User>(dto);
+             await _userRepo.AddAsync(user);
+             return _mapper.Map<UserResponseDto>(user);
         }
 
         public async Task PatchUser(Guid id, UserPatchDto dto)
         {
-            _ = await _userRepo.GetUserById(id)
+            var user = await _userRepo.GetUserById(id)
                 ?? throw new BusinessException("Usuário não encontrado");
-
-            await _userRepo.PatchAsync(id, dto.name, dto.lastName, dto.email, dto.passHash);
+			dto.Adapt<User>();
+            await _userRepo.PatchAsync(id,dto.name,dto.lastName,dto.email,dto.passHash);
         }
 
         public async Task DeleteUser(Guid id)
@@ -61,15 +69,5 @@ namespace Application.Services
             await _userRepo.DeleteAsync(user);
         }
 
-        // Mapeamento centralizado — evita repetição nos métodos acima
-        private static UserResponseDto MapToDto(User u) =>
-            new(
-                u.Id, u.Name, u.LastName, u.Email, u.PassHash, u.Role,
-                u.Pharmacies?.Select(p => new PharmacyResponseDto(
-                    p.IdAdmin, p.Name, p.Cnpj, p.City, p.State, p.Address,
-                    p.LogoUrl, p.Phone, p.Email, p.PassHash, p.Status,
-                    p.Categories.Select(c => new CategoryResponseDto(c.Id, c.Name, c.Description)).ToList()
-                )).ToList()
-            );
-    }
+	}
 }

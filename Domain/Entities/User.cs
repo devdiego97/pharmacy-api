@@ -8,7 +8,7 @@ namespace Domain.Entities
         public string LastName { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string PassHash { get; private set; } = string.Empty;
-        public UserRole Role { get; private set; } = UserRole.subAdmin;
+        public UserRole Role { get; private set; } = UserRole.Client;
         public ICollection<Pharmacy> Pharmacies { get; set; } = [];
 
         protected User() { }

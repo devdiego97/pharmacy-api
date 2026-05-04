@@ -1,5 +1,6 @@
 using Application.DTOS.Common;
-using Application.DTOS.User;
+using Application.DTOS.UserDto;
+
 
 namespace Application.Interfaces
 {

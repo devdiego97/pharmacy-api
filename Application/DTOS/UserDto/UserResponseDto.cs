@@ -1,8 +1,9 @@
 
-using Application.DTOS.Pharmacy;
+
+using Application.DTOS.PharmacyDto;
 using pharmacy_api.Enum;
 
-namespace Application.DTOS.User
+namespace Application.DTOS.UserDto
 {
     public record UserResponseDto
 	(

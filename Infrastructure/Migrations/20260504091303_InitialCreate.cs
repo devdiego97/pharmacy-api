@@ -25,9 +25,9 @@ namespace Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    pass_hahs = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                    pass_hash = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    role = table.Column<int>(type: "int", nullable: false),
+                    role = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     created_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     updated_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
@@ -153,8 +153,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_pharmacies_id_admin",
                 table: "pharmacies",
-                column: "id_admin",
-                unique: true);
+                column: "id_admin");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_email",
