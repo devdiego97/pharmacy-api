@@ -16,6 +16,7 @@ namespace Application.Mappings
             
             // Registra configurações específicas
             new UserMappingConfig().Register(config);
+			new PharmacyMappingConfig().Register(config);
         }
     }
 }

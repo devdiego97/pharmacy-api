@@ -1,6 +1,45 @@
 @Api_HostAddress = http://localhost:5071
 
-GET {{Api_HostAddress}}/weatherforecast/
+### Listar todas as farmácias
+GET {{Api_HostAddress}}/api/pharmacies
 Accept: application/json
+
+### Listar farmácias com filtros
+GET {{Api_HostAddress}}/api/pharmacies?page=1&pageSize=10&email=farmacia@example.com
+Accept: application/json
+
+### Buscar farmácia por ID
+GET {{Api_HostAddress}}/api/pharmacies/3fab85fd-5717-4562-b3fc-2c96316edae8
+Accept: application/json
+
+### Criar nova farmácia
+POST {{Api_HostAddress}}/api/pharmacies
+Content-Type: application/json
+
+{
+  "idAdmin": "00000000-0000-0000-0000-000000000000",
+  "name": "Farmácia Central",
+  "cnpj": "12.345.678/0001-90",
+  "city": "São Paulo",
+  "state": "SP",
+  "address": "Rua das Flores, 123",
+  "logoUrl": "https://example.com/logo.png",
+  "phone": "(11) 98765-4321",
+  "email": "contato@farmaciacentral.com.br",
+  "passHash": "senhaSegura123"
+}
+
+### Atualizar farmácia parcialmente
+PATCH {{Api_HostAddress}}/api/pharmacies/3fab85fd-5717-4562-b3fc-2c96316edae8
+Content-Type: application/json
+
+{
+  "name": "Farmácia Central Atualizada",
+  "phone": "(11) 91234-5678",
+  "status": true
+}
+
+### Deletar farmácia
+DELETE {{Api_HostAddress}}/api/pharmacies/3fab85fd-5717-4562-b3fc-2c96316edae8
 
 ###

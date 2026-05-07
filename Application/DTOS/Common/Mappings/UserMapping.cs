@@ -16,8 +16,7 @@ namespace Application.DTOS.Common.Mappings
                 .Map(dest => dest.LastName, src => src.LastName)
                 .Map(dest => dest.Email, src => src.Email)
                 .Map(dest => dest.Role, src => src.Role)
-                // NÃO mapear PassHash para segurança
-                .Ignore(dest => dest.PassHash)
+                .Map(dest => dest.PassHash,src=>src.PassHash)
                 // Mapear coleção de Pharmacies (relacionamento)
                 .Map(dest => dest.Pharmacies, src => src.Pharmacies);
            

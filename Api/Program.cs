@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Api.Middleware;
 using Application.DTOS.Common.Mappings;
 using Application.Interfaces;
@@ -16,7 +17,12 @@ using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler =
+            ReferenceHandler.IgnoreCycles;
+    });
+	
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>();
 
@@ -35,7 +41,8 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IPharmacyRepository,PharmacyRepository>();
-//builder.Services.AddScoped<IPharmacyService,PharmacyService>();
+builder.Services.AddScoped<IPharmacyService,PharmacyService>();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

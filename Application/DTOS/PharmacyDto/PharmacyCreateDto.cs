@@ -1,23 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.DTOS.Category;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOS.PharmacyDto
 {
-    public record  PharmacyCreateDto
+    /// <summary>
+    /// DTO para criação de uma nova farmácia
+    /// </summary>
+    public record PharmacyCreateDto
   (
+	/// <summary>
+	/// ID do administrador responsável pela farmácia (deve ser um GUID válido de um usuário existente)
+	/// </summary>
+	[Required(ErrorMessage = "O ID do administrador é obrigatório")]
+	Guid idAdmin,
 	
-    string name,
-	string cnpj,
-	string city,
-	string state,
-	string address,
-	string? logoUrl,		
-	string phone,
-	string email,
-	string passHash,
-	ICollection<CategoryResponseDto>? Categories 
+	[Required(ErrorMessage = "O nome é obrigatório")]
+    string Name,
+	
+	[Required(ErrorMessage = "O CNPJ é obrigatório")]
+	string Cnpj,
+	
+	[Required(ErrorMessage = "A cidade é obrigatória")]
+	string City,
+	
+	[Required(ErrorMessage = "O estado é obrigatório")]
+	string State,
+	
+	[Required(ErrorMessage = "O endereço é obrigatório")]
+	string Address,
+	
+	string? LogoUrl,
+	
+	[Required(ErrorMessage = "O telefone é obrigatório")]
+	string Phone,
+	
+	[Required(ErrorMessage = "O email é obrigatório")]
+	[EmailAddress(ErrorMessage = "Email inválido")]
+	string Email,
+	
+	[Required(ErrorMessage = "A senha é obrigatória")]
+	string PassHash
   );
 }

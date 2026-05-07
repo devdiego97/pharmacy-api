@@ -10,6 +10,7 @@ namespace Application.DTOS.PharmacyDto
 {
     public record  PharmacyResponseDto
   (
+	Guid Id,
     Guid IdAdmin,
     string Name,
 	string Cnpj,

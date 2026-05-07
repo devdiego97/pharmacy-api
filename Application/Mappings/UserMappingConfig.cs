@@ -1,3 +1,4 @@
+using Application.DTOS.PharmacyDto;
 using Application.DTOS.UserDto;
 using Domain.Entities;
 using Mapster;
@@ -21,6 +22,17 @@ namespace Application.Mappings
                     src.email,
                     src.passHash,
                     src.role
+                ));
+
+            config.NewConfig<User, UserResponseDto>()
+                .MapWith(src => new UserResponseDto(
+                    src.Id,
+                    src.Name,
+                    src.LastName,
+                    src.Email,
+                    src.PassHash,
+                    src.Role,
+                    src.Pharmacies != null ? src.Pharmacies.Select(p => p.Adapt<PharmacyResponseDto>()).ToList() : null
                 ));
 
             // ========================================

@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public abstract  class Product : BaseEntity
     {
-		public  Guid? IdPharmacy{get;private set;}
+		public  Guid IdPharmacy{get; private set;}
 		public Guid IdCategory{get;private set;}
         public  string Name{get;private set;}=string.Empty;
 		public string Description{get;private set;}=string.Empty;

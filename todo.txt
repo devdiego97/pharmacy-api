@@ -12,11 +12,10 @@
 - [x] Delete
 - [x] Exceptions Globais
 - [x] Paginação e Filtragem
-- [] Search
 - [x] Mapster
 - [] Envio de Emails 
 - [] Uplaod de arquivos
-- [] CQRS + MediaTr
+- [] CQRS(microsserviços) + MediaTr
 - []redis cache
 - [] Observalidade = Serilog + Grafana + Prometheus
 - [] Agente de IA
