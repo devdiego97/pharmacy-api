@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,7 +113,7 @@ namespace Infrastructure.Migrations
                     type = table.Column<int>(type: "int", nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     updated_at = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    IdPharmacy = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    IdPharmacy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     id_category = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

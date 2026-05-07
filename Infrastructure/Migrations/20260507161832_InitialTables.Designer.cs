@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260504091303_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260507161832_InitialTables")]
+    partial class InitialTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,7 +86,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("id_category");
 
-                    b.Property<Guid?>("IdPharmacy")
+                    b.Property<Guid>("IdPharmacy")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ImageUrl")

@@ -83,7 +83,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("id_category");
 
-                    b.Property<Guid?>("IdPharmacy")
+                    b.Property<Guid>("IdPharmacy")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ImageUrl")

@@ -21,17 +21,20 @@ namespace Infrastructure.Repositories
 
 
 
-		public Task AddAsync(Pharmacy pharmacy)
+		public async  Task AddAsync(Pharmacy pharmacy)
 		{
-			throw new NotImplementedException();
+			await _context.AddAsync(pharmacy);
+			await _context.SaveChangesAsync();
 		}
 
-		public Task DeleteAsync(Pharmacy pharmacy)
+		public async  Task DeleteAsync(Pharmacy pharmacy)
 		{
-			throw new NotImplementedException();
+			_context.Pharmacies.Remove(pharmacy);
+			await _context.SaveChangesAsync();
 		}
-
-		public async Task<(IEnumerable<Pharmacy> Pharmscies, int TotalCount)> GetListPharmaciesAsync(string? Email, string? Cnpj, int page, int pageSize)
+		public async Task<(IEnumerable<Pharmacy> Pharmscies, int TotalCount)> GetListPharmaciesAsync(
+			string? Email, string? Cnpj, int page, int pageSize
+		)
 		{
 		  
 
@@ -47,7 +50,7 @@ namespace Infrastructure.Repositories
 			var pharmacies=await query
 			.OrderBy(p=>p.Name)
 			.Skip((page -1) * pageSize)
-			.TakeLast(pageSize)
+			.Take(pageSize)
 			.ToListAsync();
 
 			return (pharmacies,totalCount);
@@ -57,12 +60,31 @@ namespace Infrastructure.Repositories
 
 		public Task<Pharmacy?> GetPharmacyByAsync(Guid id)
 		{
-			throw new NotImplementedException();
+			return _context.Pharmacies
+			.Include( p => p.Categories)
+			.SingleOrDefaultAsync(p=>p.Id == id);
 		}
 
-		public Task PacthASync(Guid id, string? name, string? cnpj, string? city, string? state, string? address, string? logoUrl, string? phone, string? email, string? passHash, bool? status)
+		public async Task PacthASync(Guid id, string? name, string? cnpj, string? 
+			city, string? state, string? address, string? logoUrl, string? 
+			phone, string? email, string? passHash, bool? status
+	   )
 		{
-			throw new NotImplementedException();
+		  await _context.Pharmacies
+		  .Where(p => p.Id == id)
+		  .ExecuteUpdateAsync(setters =>
+		  	setters
+			.SetProperty(p => p.Name , p =>name ?? p.Name )
+			.SetProperty(p => p.Cnpj , p =>cnpj ?? p.Cnpj )
+			.SetProperty(p => p.City, p =>city ?? p.City )
+			.SetProperty(p => p.State, p =>state ?? p.State )
+			.SetProperty(p => p.Address , p =>address ?? p.Address )
+			.SetProperty(p => p.Phone , p =>phone ?? p.Phone )
+			.SetProperty(p => p.Email , p =>email ?? p.Email )
+			.SetProperty(p => p.PassHash , p =>passHash ?? p.PassHash )
+			.SetProperty(p => p.Status, p =>status ?? p.Status )
+     );
+
 		}
 	}
 }
